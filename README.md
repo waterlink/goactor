@@ -22,13 +22,13 @@ Simple example
 
 ```go
 type Relationships struct {
-  Inbox chan Event,
+  goactor.Actor
 }
 
-func (this Relationships) Actor() {
-  event, ok := <-this.Inbox
+func (this Relationships) Act(message goactor.Any) {
+  event, ok := message.(Event)
   if !ok {
-    this.Die("Inbox is unreachable")
+    return     # ignore or handle it
   }
 
   # ... handle event ...
@@ -38,22 +38,23 @@ func (this Relationships) Actor() {
 To run this actor:
 
 ```go
-relationships = Relationships{
-  Inbox: make(chan Event),
-}
-goactor.Go(relationships)
+relationships := Relationships{goactor.NewActor()}
+goactor.Go(relationships, "Relationships Task")
 ```
 
 To send anything to its inbox, one can use:
 
 ```go
-relationships.Send(anEvent)
+goactor.Send(relationships, anEvent)
 ```
 
 Actor needs following methods to be implemented:
 
-- `(goactor.Actor) Actor()` - one lifecylce: get inbox message and do something important
-- `(goactor.Actor) Inbox` of type `chan interface{}`
+- `(goactor.Actor) Act(message Any)` - one lifecylce: get inbox message and do something important
+
+Look at the full [example](examples/example.go)
+
+For further details you can look at the test: [goactor_test.go](goactor_test.go)
 
 ## Contributing
 
