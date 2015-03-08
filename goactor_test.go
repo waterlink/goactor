@@ -10,7 +10,7 @@ type AnActor struct {
 	outbox chan string
 }
 
-func (this AnActor) Act(message Any) {
+func (this *AnActor) Act(message Any) {
 	response := fmt.Sprintf("Got '%s'", message)
 	this.outbox <- response
 }
@@ -27,12 +27,12 @@ func TestHandlesInboxMessages(t *testing.T) {
 		Actor:  NewActor(),
 		outbox: outbox,
 	}
-	Go(anActor, "String Actor")
+	Go(&anActor, "String Actor")
 
-	Send(anActor, "hello, world")
+	Send(&anActor, "hello, world")
 	expectResponseToEq(t, outbox, "Got 'hello, world'")
 
-	Send(anActor, "hello, goworld")
+	Send(&anActor, "hello, goworld")
 	expectResponseToEq(t, outbox, "Got 'hello, goworld'")
 }
 
@@ -40,7 +40,7 @@ func TestClosedInbox(t *testing.T) {
 	anActor := AnActor{
 		Actor: NewActor(),
 	}
-	Go(anActor, "String Actor")
+	Go(&anActor, "String Actor")
 
 	close(anActor.Inbox())
 }
@@ -50,7 +50,7 @@ type AnIntegerActor struct {
 	outbox chan int
 }
 
-func (this AnIntegerActor) Act(message Any) {
+func (this *AnIntegerActor) Act(message Any) {
 	integerMessage, ok := message.(int)
 	if !ok {
 		return
@@ -72,8 +72,8 @@ func TestWorksWithDifferentType(t *testing.T) {
 		Actor:  NewActor(),
 		outbox: outbox,
 	}
-	Go(anActor, "Integer Actor")
+	Go(&anActor, "Integer Actor")
 
-	Send(anActor, 41)
+	Send(&anActor, 41)
 	expectIntegerResponseToEq(t, outbox, 42)
 }

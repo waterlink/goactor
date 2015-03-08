@@ -25,7 +25,7 @@ type Relationships struct {
   goactor.Actor
 }
 
-func (this Relationships) Act(message goactor.Any) {
+func (this *Relationships) Act(message goactor.Any) {
   event, ok := message.(Event)
   if !ok {
     return     # ignore or handle it
@@ -39,18 +39,18 @@ To run this actor:
 
 ```go
 relationships := Relationships{goactor.NewActor()}
-goactor.Go(relationships, "Relationships Task")
+goactor.Go(&relationships, "Relationships Task")
 ```
 
 To send anything to its inbox, one can use:
 
 ```go
-goactor.Send(relationships, anEvent)
+goactor.Send(&relationships, anEvent)
 ```
 
 Actor needs following methods to be implemented:
 
-- `(goactor.Actor) Act(message Any)` - one lifecylce: get inbox message and do something important
+- `(*goactor.Actor) Act(message goactor.Any)` - one lifecylce: get inbox message and do something important
 
 Look at the full [example](examples/example.go)
 
