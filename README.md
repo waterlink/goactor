@@ -52,6 +52,18 @@ Actor needs following methods to be implemented:
 
 - `(*goactor.Actor) Act(message goactor.Any)` - one lifecylce: get inbox message and do something important
 
+If you want to kill an actor, then use `Die()` method on it:
+
+```go
+# usage from outside of an actor
+relationships.Die()
+
+# usage from inside of an actor
+this.Die()
+```
+
+Note: it will still finish current lifecycle and will die on beginning of the next one.
+
 Look at the full [example](examples/example.go)
 
 For further details you can look at the test: [goactor_test.go](goactor_test.go)
