@@ -10,7 +10,7 @@ type AnActor struct {
 	outbox chan string
 }
 
-func (this AnActor) Act(message Any) {
+func (this *AnActor) Act(message Any) {
 	response := fmt.Sprintf("Got '%s'", message)
 	this.outbox <- response
 }
@@ -50,7 +50,7 @@ type AnIntegerActor struct {
 	outbox chan int
 }
 
-func (this AnIntegerActor) Act(message Any) {
+func (this *AnIntegerActor) Act(message Any) {
 	integerMessage, ok := message.(int)
 	if !ok {
 		return
