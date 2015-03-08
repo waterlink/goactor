@@ -39,7 +39,7 @@ func Go(actor ActorInterface, name string) {
 	}()
 }
 
-func Send(actor ActorInterface, message Any) {
+func (actor *Actor) Send(message Any) {
 	go func() {
 		actor.Inbox() <- message
 	}()

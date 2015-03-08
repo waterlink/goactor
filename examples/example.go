@@ -22,7 +22,7 @@ func (this *Relationships) Act(message goactor.Any) {
 
 func main() {
 	relationships := Relationships{goactor.NewActor()}
-	relationships.Go("Relationships Task")
+	goactor.Go(&relationships, "Relationships Task")
 
 	anEvent := Event{"the sender", "the message"}
 	relationships.Send(anEvent)

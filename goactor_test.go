@@ -27,7 +27,7 @@ func TestHandlesInboxMessages(t *testing.T) {
 		Actor:  NewActor(),
 		outbox: outbox,
 	}
-	anActor.Go("String Actor")
+	Go(&anActor, "String Actor")
 
 	anActor.Send("hello, world")
 	expectResponseToEq(t, outbox, "Got 'hello, world'")
@@ -40,7 +40,7 @@ func TestClosedInbox(t *testing.T) {
 	anActor := AnActor{
 		Actor: NewActor(),
 	}
-	anActor.Go("String Actor")
+	Go(&anActor, "String Actor")
 
 	close(anActor.Inbox())
 }
@@ -69,7 +69,7 @@ func TestWorksWithDifferentType(t *testing.T) {
 		Actor:  NewActor(),
 		outbox: outbox,
 	}
-	anActor.Go("Integer Actor")
+	Go(&anActor, "Integer Actor")
 
 	anActor.Send(41)
 	expectIntegerResponseToEq(t, outbox, 42)

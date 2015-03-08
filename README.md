@@ -39,7 +39,7 @@ To run this actor:
 
 ```go
 relationships := Relationships{goactor.NewActor()}
-relationships.Go("Relationships Task")
+goactor.Go(&relationships, "Relationships Task")
 ```
 
 To send anything to its inbox, one can use:
