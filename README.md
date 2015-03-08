@@ -45,7 +45,11 @@ goactor.Go(&relationships, "Relationships Task")
 To send anything to its inbox, one can use:
 
 ```go
+# Async send
 relationships.Send(anEvent)
+
+# Sync send, will block, until actor consumes
+relationships.SyncSend(anEvent)
 ```
 
 Actor needs following methods to be implemented:

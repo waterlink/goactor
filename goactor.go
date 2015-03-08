@@ -41,8 +41,12 @@ func Go(actor ActorInterface, name string) {
 
 func (actor *Actor) Send(message Any) {
 	go func() {
-		actor.Inbox() <- message
+		actor.SyncSend(message)
 	}()
+}
+
+func (actor *Actor) SyncSend(message Any) {
+	actor.Inbox() <- message
 }
 
 func (actor *Actor) Die() {

@@ -89,3 +89,32 @@ func TestDie(t *testing.T) {
 		t.Error("Expected Inbox to be closed")
 	}
 }
+
+type Stateful struct {
+	Actor
+	value string
+}
+
+func (this *Stateful) Act(message Any) {
+	if newValue, ok := message.(string); ok {
+		this.value = newValue
+	}
+}
+
+func TestSyncSend(t *testing.T) {
+	anActor := &Stateful{
+		Actor: NewActor(),
+		value: "",
+	}
+	Go(anActor, "Stateful Actor")
+
+	anActor.Send("stuff")
+	if "stuff" == anActor.value {
+		t.Error("Send is not async")
+	}
+
+	anActor.SyncSend("some stuff")
+	if "some stuff" != anActor.value {
+		t.Error("SyncSend is not sync")
+	}
+}
