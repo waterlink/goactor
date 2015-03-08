@@ -22,10 +22,10 @@ func (this *Relationships) Act(message goactor.Any) {
 
 func main() {
 	relationships := Relationships{goactor.NewActor()}
-	goactor.Go(relationships, "Relationships Task")
+	goactor.Go(&relationships, "Relationships Task")
 
 	anEvent := Event{"the sender", "the message"}
-	goactor.Send(relationships, anEvent)
+	goactor.Send(&relationships, anEvent)
 
 	time.Sleep(50 * time.Millisecond)
 }
