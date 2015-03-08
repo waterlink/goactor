@@ -25,7 +25,7 @@ type Relationships struct {
   goactor.Actor
 }
 
-func (this Relationships) Act(message goactor.Any) {
+func (this *Relationships) Act(message goactor.Any) {
   event, ok := message.(Event)
   if !ok {
     return     # ignore or handle it
