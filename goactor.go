@@ -44,3 +44,7 @@ func (actor *Actor) Send(message Any) {
 		actor.Inbox() <- message
 	}()
 }
+
+func (actor *Actor) Die() {
+	close(actor.Inbox())
+}

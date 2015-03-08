@@ -74,3 +74,18 @@ func TestWorksWithDifferentType(t *testing.T) {
 	anActor.Send(41)
 	expectIntegerResponseToEq(t, outbox, 42)
 }
+
+func TestDie(t *testing.T) {
+	anActor := &AnActor{
+		Actor:  NewActor(),
+		outbox: make(chan string),
+	}
+	Go(anActor, "Dying Actor")
+
+	anActor.Die()
+
+	_, ok := <-anActor.Inbox()
+	if ok {
+		t.Error("Expected Inbox to be closed")
+	}
+}
