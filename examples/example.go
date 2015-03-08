@@ -25,7 +25,7 @@ func main() {
 	goactor.Go(&relationships, "Relationships Task")
 
 	anEvent := Event{"the sender", "the message"}
-	goactor.Send(&relationships, anEvent)
+	relationships.Send(anEvent)
 
 	time.Sleep(50 * time.Millisecond)
 }

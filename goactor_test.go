@@ -29,10 +29,10 @@ func TestHandlesInboxMessages(t *testing.T) {
 	}
 	Go(&anActor, "String Actor")
 
-	Send(&anActor, "hello, world")
+	anActor.Send("hello, world")
 	expectResponseToEq(t, outbox, "Got 'hello, world'")
 
-	Send(&anActor, "hello, goworld")
+	anActor.Send("hello, goworld")
 	expectResponseToEq(t, outbox, "Got 'hello, goworld'")
 }
 
@@ -51,13 +51,10 @@ type AnIntegerActor struct {
 }
 
 func (this *AnIntegerActor) Act(message Any) {
-	integerMessage, ok := message.(int)
-	if !ok {
-		return
+	if integerMessage, ok := message.(int); ok {
+		response := integerMessage + 1
+		this.outbox <- response
 	}
-
-	response := integerMessage + 1
-	this.outbox <- response
 }
 
 func expectIntegerResponseToEq(t *testing.T, outbox chan int, expected int) {
@@ -74,6 +71,6 @@ func TestWorksWithDifferentType(t *testing.T) {
 	}
 	Go(&anActor, "Integer Actor")
 
-	Send(&anActor, 41)
+	anActor.Send(41)
 	expectIntegerResponseToEq(t, outbox, 42)
 }

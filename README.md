@@ -45,7 +45,7 @@ goactor.Go(&relationships, "Relationships Task")
 To send anything to its inbox, one can use:
 
 ```go
-goactor.Send(&relationships, anEvent)
+relationships.Send(anEvent)
 ```
 
 Actor needs following methods to be implemented:
